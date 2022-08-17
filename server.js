@@ -3,7 +3,7 @@ const fs = require ('fs');
 const path = require('path');
 const express = require('express');
 
-const app = express(); 
+const app = express();
 
 const theNotes =('./db/db.json');
 
@@ -28,7 +28,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
-function noteCreation(body, notesArray) {
+function createNewNote (body, notesArray) {
     const newNote = body;
         if (!Array.isArray(notesArray))
             notesArray= [];
@@ -50,7 +50,7 @@ function noteCreation(body, notesArray) {
 
 
 app.post('api/notes', (req, res) => {
-    const newNote = noteCreation(req.body, theNotes);
+    const newNote = createNewNote (req.body, theNotes);
     res.json(newNote)
 });
 
