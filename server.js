@@ -5,7 +5,7 @@ const express = require('express');
 
 const app = express();
 
-const allNotes =('./db/db.json');
+const theNotes =('./db/db.json');
 
 app.use(express.urlencoded({ extended:true }));
 app.use(express.json());
@@ -13,22 +13,22 @@ app.use(express.static('public'));
 
 
 app.get('/api/notes', (req, res) => {
-    res.json(allNotes.slice(1));
+    res.json(theNotes.slice(1));
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/index.html'));
+    res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
 app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/notes.html'));
+    res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/index.html'));
-});
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '/public/index.html'));
+// });
 
-function createNewNote (body, notesArray) {
+function noteCreation(body, notesArray) {
     const newNote = body;
         if (!Array.isArray(notesArray))
             notesArray= [];
@@ -50,11 +50,11 @@ function createNewNote (body, notesArray) {
 
 
 app.post('api/notes', (req, res) => {
-    const newNote = createNewNote(req.body, allNotes);
+    const newNote = noteCreation(req.body, theNotes);
     res.json(newNote)
 });
 
-function deleteNote (id, notesArray) {
+function noteDeletion(id, notesArray) {
     for (let i = 0; i < notesArray.length; i++) {
         let note = notesArray[i];
 
@@ -68,7 +68,7 @@ function deleteNote (id, notesArray) {
         }}};
 
 app.delete('/api/notes/:id', (req, res) => {
-    deleteNote(req.params.id, allNotes);
+    noteDeletion(req.params.id, theNotes);
     res.json(true);
 });
 
