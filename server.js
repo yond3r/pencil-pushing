@@ -9,25 +9,24 @@ const theNotes =('./db/db.json');
 
 app.use(express.urlencoded({ extended:true }));
 app.use(express.json());
-app.use(express.static('public/assets'));
-app.use(express.static('public/assets/css'));
-app.use(express.static('public/assets/js'));
+app.use(express.static('public'));
+
 
 app.get('/api/notes', (req, res) => {
     res.json(theNotes.slice(1));
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/index.html'));
+    res.sendFile(path.join(__dirname, './index.html'));
 });
 
 app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/notes.html'));
+    res.sendFile(path.join(__dirname, './notes.html'));
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/index.html'));
-});
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, './public/index.html'));
+// });
 
 function noteCreation(body, notesArray) {
     const newNote = body;
