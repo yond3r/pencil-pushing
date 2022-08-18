@@ -10,7 +10,7 @@ const theNotes = ('./db/db.json');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static('./public'));
 
 
 app.get('/api/notes', (req, res) => {
@@ -68,12 +68,9 @@ function noteDeletion(id, notesArray) {
             notesArray.splice(i, 1);
             fs.writeFile(
                 path.join(__dirname, './db/db.json'),
-                JSON.stringify(notesArray, null, 2)
-            )
-            break;
-        }
-    }
-};
+                JSON.stringify(notesArray, null, 2))
+                    break;
+             }}};
 
 app.delete('/api/notes/:id', (req, res) => {
     noteDeletion(req.params.id, theNotes);
