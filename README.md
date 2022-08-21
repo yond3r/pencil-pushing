@@ -11,14 +11,14 @@
 
  
  ## screenshots
- - ![alt text](./Assets/notes.png)
- - ![alt text](./Assets/silly404error.png)
+ - ![alt text](./Assets/newNote.png)
+ - ![alt text](./Assets/newestNote.png)
 
  ## deployed Link
  [heroku link](https://pencil-pushing.herokuapp.com/)
  
  ## description 
- - As the project already contained starter code, it was my goal, as a developer, to utilize the backend with Express.js. Together, these connect, and allow the user to write, edit, and delete notes.
+ - As the project already contained starter code, it was my goal, as a developer, to utilize the backend with Express.js. Together, these connect, and allow the user to write, edit, and delete notes. 
 
  ## user story
 - AS A small business owner

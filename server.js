@@ -6,7 +6,7 @@ const express = require('express');
 
 const app = express();
 
-const theNotes = ('./db/db.json');
+const theNotes = require('./db/db.json');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -14,8 +14,15 @@ app.use(express.static('./public'));
 
 
 app.get('/api/notes', (req, res) => {
-    res.json(theNotes.slice(1));
-});
+    fs.readFile("./db/db.json", (err, data) => {
+        if (err) {
+          throw err;
+        } else {
+          const notesList = JSON.parse(data);
+          res.json(notesList);
+        }
+      });
+    });
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/index.html'));
@@ -47,18 +54,24 @@ function noteCreation(body, notesArray) {
             return newNote
 };
 
+// app.post('api/notes/', (req, res) =>{
+//     const newNote = noteCreation (req.body, theNotes);
+//         res.json(newNote);
+// })
 
-app.post('api/notes/:id', (req, res) => {
-    fs.readFile('./db/db.json', (err, data) => {
-        if (err) {
-            throw err;
-        } else {
-            const newNote = noteCreation(req.body.id = uuid(), theNotes);
-            res.json(newNote)
-
-        }
-    })
-});
+app.post('/api/notes/', (req, res) => {
+    let newNote = req.body;
+        fs.readFile('./db/db.json', (err, data) => {
+            if (err) throw err;
+                let notes = JSON.parse(data);
+                    notes.push(newNote);
+                      
+                fs.writeFile('./db/db.json', JSON.stringify(notes), (err) => {
+                    if (err) throw err;
+                })
+            })
+                res.json(newNote);
+        });
 
 function noteDeletion(id, notesArray) {
     for (let i = 0; i < notesArray.length; i++) {
@@ -76,7 +89,6 @@ app.delete('/api/notes/:id', (req, res) => {
     noteDeletion(req.params.id, theNotes);
     res.json(true);
 });
-
 
 app.listen(PORT, () => {
     console.log(`API server is now port on ${PORT}`);
